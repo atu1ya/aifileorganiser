@@ -1,0 +1,9 @@
+# Core dependencies
+PySide6
+sentence-transformers
+transformers
+pillow
+pyssdeep
+ollama
+# For packaging
+pyinstaller
