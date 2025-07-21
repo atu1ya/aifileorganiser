@@ -22,9 +22,25 @@ class MainWindow(QWidget):
         layout.addWidget(self.ai_checkbox)
         self.stats_label = QLabel("Files sorted: 0 | Duplicates detected: 0")
         layout.addWidget(self.stats_label)
+        self.organise_btn = QPushButton("Organise Files")
+        self.organise_btn.clicked.connect(self.organise_files)
+        layout.addWidget(self.organise_btn)
         self.setLayout(layout)
         self.source_folder = None
         self.destination_folder = None
+
+    def organise_files(self):
+        if not self.source_folder or not self.destination_folder:
+            self.label.setText("Please select both source and destination folders.")
+            return
+        from organiser.organiser import organise_files
+        use_ai = self.ai_checkbox.isChecked()
+        try:
+            files_sorted, duplicates_detected = organise_files(self.source_folder, self.destination_folder, use_ai)
+            self.stats_label.setText(f"Files sorted: {files_sorted} | Duplicates detected: {duplicates_detected}")
+            self.label.setText("Organisation complete!")
+        except Exception as e:
+            self.label.setText(f"Error: {e}")
 
     def select_source(self):
         folder = QFileDialog.getExistingDirectory(self, "Select Source Folder")
