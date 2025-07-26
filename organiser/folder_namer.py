@@ -1,4 +1,4 @@
-def generate_folder_name(cluster_texts, model="phi3"):
+def generate_folder_name(cluster_texts, model="llama3"):
     """Generate a human-readable folder name using local LLM (Ollama)."""
     try:
         import ollama
