@@ -50,19 +50,37 @@ def organise_files(source_folder, destination_folder, use_ai=False):
                 # Log skipped file for debugging
                 print(f"[DEBUG] Skipped non-text file: {file} ({e})")
 
-    # Step 2: AI sorting (optional)
+    # Step 2: AI sorting (optional, group by cluster)
+    cluster_to_files = {}
+    cluster_to_texts = {}
+    file_to_cluster = {}
     if use_ai and AI_DEPENDENCIES_AVAILABLE and text_files:
         embeddings = get_text_embeddings(text_files)
         labels = cluster_embeddings(embeddings, n_clusters=min(5, len(text_files)))
         for idx, label in enumerate(labels):
-            cluster_map[text_file_paths[idx]] = label
+            file = text_file_paths[idx]
+            file_to_cluster[file] = label
+            cluster_to_files.setdefault(label, []).append(file)
+            cluster_to_texts.setdefault(label, []).append(text_files[idx])
 
     # Step 3: Move files
+    used_files = set()
+    # Move AI-clustered files
+    if use_ai and AI_DEPENDENCIES_AVAILABLE and cluster_to_files:
+        for label, files_in_cluster in cluster_to_files.items():
+            texts_in_cluster = cluster_to_texts[label]
+            folder_name = generate_folder_name(texts_in_cluster)
+            target_folder = os.path.join(destination_folder, folder_name)
+            create_folder(target_folder)
+            for file in files_in_cluster:
+                move_file(file, os.path.join(target_folder, os.path.basename(file)))
+                stats.log_file_sorted()
+                used_files.add(file)
+    # Move remaining files (non-AI or non-text)
     for file in hashes.values():
-        if use_ai and file in cluster_map:
-            folder_name = generate_folder_name([file]) + f"_{cluster_map[file]}"
-        else:
-            folder_name = get_human_readable_folder(file)
+        if file in used_files:
+            continue
+        folder_name = get_human_readable_folder(file)
         target_folder = os.path.join(destination_folder, folder_name)
         create_folder(target_folder)
         move_file(file, os.path.join(target_folder, os.path.basename(file)))
