@@ -7,7 +7,6 @@ DEFAULT_CONFIG = {
     "last_source_folder": "",
     "last_destination_folder": "",
     "use_ai_sorting": False,
-    "by_date": False
 }
 
 def load_config():

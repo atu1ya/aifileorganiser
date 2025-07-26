@@ -47,7 +47,12 @@ class MainWindow(QWidget):
             }
             QCheckBox {
                 margin: 10px 0 10px 0;
-                font-size: 17px;
+                font-size: 19px;
+                font-weight: bold;
+                color: #0d47a1;
+                background: #e3f2fd;
+                border-radius: 5px;
+                padding: 6px 10px 6px 10px;
             }
             QLabel#StatsLabel {
                 color: #374151;

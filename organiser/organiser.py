@@ -11,17 +11,34 @@ def organise_files(source_folder, destination_folder, use_ai=False):
     stats = Stats()
     files = list_files(source_folder)
     hashes = {}
+    ssdeep_hashes = {}
     clusters = None
     cluster_map = {}
     text_files = []
     text_file_paths = []
 
-    # Step 1: Detect duplicates
+    # Step 1: Detect duplicates (SHA-256, then fuzzy via ssdeep if available)
+    from organiser.duplicate import compare_ssdeep, SSDEEP_AVAILABLE
+    FUZZY_THRESHOLD = 90  # similarity score (0-100)
     for file in files:
         h = sha256_hash(file)
         if h in hashes:
             stats.log_duplicate_detected()
             continue  # Skip duplicate
+        # Fuzzy duplicate detection (optional, only if not SHA-256 duplicate)
+        is_fuzzy_duplicate = False
+        if SSDEEP_AVAILABLE:
+            s_hash = ssdeep_hash(file)
+            for prev_file, prev_s_hash in ssdeep_hashes.items():
+                if prev_s_hash and s_hash:
+                    score = compare_ssdeep(s_hash, prev_s_hash)
+                    if score is not None and score >= FUZZY_THRESHOLD:
+                        stats.log_duplicate_detected()
+                        is_fuzzy_duplicate = True
+                        break
+            if is_fuzzy_duplicate:
+                continue  # Skip fuzzy duplicate
+            ssdeep_hashes[file] = s_hash
         hashes[h] = file
         # Collect text files for AI sorting
         if os.path.splitext(file)[1].lower() in ['.txt', '.md', '.doc', '.docx', '.pdf']:

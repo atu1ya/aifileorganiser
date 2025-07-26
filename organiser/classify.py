@@ -1,32 +1,20 @@
 import os
-import datetime
 from pathlib import Path
 
-def classify_file(file_path, by_date=False):
-    """Classify a file by type (extension) and optionally by date."""
+def classify_file(file_path):
+    """Classify a file by type (extension)."""
     ext = Path(file_path).suffix.lower()
     if ext in ['.txt', '.doc', '.docx', '.pdf', '.md']:
-        folder = 'Documents'
+        return 'Documents'
     elif ext in ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff']:
-        folder = 'Images'
+        return 'Images'
     elif ext in ['.mp4', '.avi', '.mov', '.mkv']:
-        folder = 'Videos'
+        return 'Videos'
     elif ext in ['.xls', '.xlsx', '.csv']:
-        folder = 'Spreadsheets'
+        return 'Spreadsheets'
     elif ext in ['.ppt', '.pptx']:
-        folder = 'Presentations'
+        return 'Presentations'
     elif ext in ['.zip', '.rar', '.7z', '.tar', '.gz']:
-        folder = 'Archives'
+        return 'Archives'
     else:
-        folder = 'Other'
-
-    if by_date:
-        # Use file creation or modification year-month as subfolder
-        try:
-            timestamp = os.path.getmtime(file_path)
-        except Exception:
-            timestamp = None
-        if timestamp:
-            date_str = datetime.datetime.fromtimestamp(timestamp).strftime('%Y-%m')
-            folder = os.path.join(folder, date_str)
-    return folder
+        return 'Other'

@@ -5,7 +5,7 @@
 A Python desktop app that automatically organises files, detects duplicates, and uses local AI models for smart sorting. Runs fully offline and cross-platform (Windows/macOS).
 
 ## Features
-- File classification by extension and date
+- File classification by extension
 - Human-readable folder structure
 - Duplicate detection (SHA-256, optional fuzzy matching)
 - Optional AI-powered sorting and folder naming
