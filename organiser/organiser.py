@@ -29,8 +29,9 @@ def organise_files(source_folder, destination_folder, use_ai=False):
                 with open(file, 'r', encoding='utf-8', errors='ignore') as f:
                     text_files.append(f.read())
                     text_file_paths.append(file)
-            except Exception:
-                pass
+            except Exception as e:
+                # Log skipped file for debugging
+                print(f"[DEBUG] Skipped non-text file: {file} ({e})")
 
     # Step 2: AI sorting (optional)
     if use_ai and AI_DEPENDENCIES_AVAILABLE and text_files:

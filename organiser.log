@@ -1,0 +1,13 @@
+2025-07-26 11:03:55,012 INFO Duplicate detected. Total: 1
+2025-07-26 11:03:55,014 INFO Duplicate detected. Total: 2
+2025-07-26 11:03:55,051 INFO Use pytorch device_name: cpu
+2025-07-26 11:03:55,051 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-07-26 11:04:01,588 WARNING Xet Storage is enabled for this repo, but the 'hf_xet' package is not installed. Falling back to regular HTTP download. For better performance, install the package with: `pip install huggingface_hub[hf_xet]` or `pip install hf_xet`
+2025-07-26 11:04:12,778 INFO File sorted. Total: 1
+2025-07-26 11:04:16,704 INFO File sorted. Total: 2
+2025-07-26 11:04:16,707 INFO File sorted. Total: 3
+2025-07-26 11:04:18,767 INFO File sorted. Total: 4
+2025-07-26 11:04:18,771 INFO File sorted. Total: 5
+2025-07-26 11:04:18,775 INFO File sorted. Total: 6
+2025-07-26 11:04:18,778 INFO File sorted. Total: 7
+2025-07-26 11:04:18,780 INFO File sorted. Total: 8
