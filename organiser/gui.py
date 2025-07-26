@@ -165,5 +165,4 @@ def launch_gui():
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
-    app.exec()
     sys.exit(app.exec())
